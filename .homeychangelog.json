@@ -1,0 +1,17 @@
+{
+  "1.0.0": {
+    "en": "first beta"
+  },
+  "0.1.1": {
+    "en": "login fixed"
+  },
+  "0.1.3": {
+    "en": "More flow scripts and updated read me file"
+  },
+  "0.1.4": {
+    "en": "New flow card for HEMS application"
+  },
+  "0.1.6": {
+    "en": "Added device capabilities for Solar, Battery, Grid and Consumption"
+  }
+}

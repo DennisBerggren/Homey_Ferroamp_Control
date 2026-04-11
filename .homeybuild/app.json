@@ -1,0 +1,751 @@
+{
+  "id": "com.ferroamp.power",
+  "version": "0.1.4",
+  "compatibility": ">=10.0.0",
+  "sdk": 3,
+  "name": {
+    "en": "Ferroamp Control"
+  },
+  "description": {
+    "en": "Control Ferroamp EnergyHub"
+  },
+  "category": [
+    "energy"
+  ],
+  "author": {
+    "name": "Dennis Berggren",
+    "email": "dennisberggren@me.com"
+  },
+  "drivers": [
+    {
+      "id": "energyhub",
+      "name": {
+        "en": "Ferroamp EnergyHub"
+      },
+      "class": "solarpanel",
+      "energy": {
+        "batteries": ["OTHER"]
+      },
+      "capabilities": [
+        "measure_power.grid",
+        "measure_power.solar",
+        "measure_power.battery",
+        "measure_power.consumption",
+        "measure_battery"
+      ],
+      "capabilitiesOptions": {
+        "measure_power.solar": {
+          "title": { "en": "Solar Production", "sv": "Solproduktion" },
+          "decimals": 0
+        },
+        "measure_power.grid": {
+          "title": { "en": "Grid (+ import / - export)", "sv": "Nät (+ import / - export)" },
+          "decimals": 0
+        },
+        "measure_power.battery": {
+          "title": { "en": "Battery (+ charging / - discharging)", "sv": "Batteri (+ laddar / - laddar ur)" },
+          "decimals": 0
+        },
+        "measure_power.consumption": {
+          "title": { "en": "Home Consumption", "sv": "Förbrukning" },
+          "decimals": 0
+        },
+        "measure_battery": {
+          "title": { "en": "Battery SOC", "sv": "Batteriladdning" },
+          "decimals": 0
+        }
+      },
+      "images": {
+        "small": "/drivers/energyhub/assets/images/small.png",
+        "large": "/drivers/energyhub/assets/images/large.png"
+      },
+      "pair": [
+        {
+          "id": "login"
+        },
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ]
+    }
+  ],
+  "flow": {
+    "actions": [
+      {
+        "id": "charge_battery",
+        "title": {
+          "en": "Charge battery"
+        },
+        "titleFormatted": {
+          "en": "Charge battery at [[watts]] W"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=energyhub"
+          },
+          {
+            "name": "watts",
+            "type": "number",
+            "title": {
+              "en": "Power (W)"
+            },
+            "min": 0,
+            "max": 15000,
+            "step": 100,
+            "placeholder": {
+              "en": "3000"
+            }
+          }
+        ]
+      },
+      {
+        "id": "discharge_battery",
+        "title": {
+          "en": "Discharge battery"
+        },
+        "titleFormatted": {
+          "en": "Discharge battery at [[watts]] W"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=energyhub"
+          },
+          {
+            "name": "watts",
+            "type": "number",
+            "title": {
+              "en": "Power (W)"
+            },
+            "min": 0,
+            "max": 15000,
+            "step": 100,
+            "placeholder": {
+              "en": "3000"
+            }
+          }
+        ]
+      },
+      {
+        "id": "set_self_consumption",
+        "title": {
+          "en": "Set Self-Consumption mode"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=energyhub"
+          },
+          {
+            "name": "discharge_reference",
+            "type": "number",
+            "title": {
+              "en": "Discharge Reference (W)"
+            },
+            "min": 0,
+            "max": 15000,
+            "placeholder": {
+              "en": "Empty = keep current"
+            }
+          },
+          {
+            "name": "charge_reference",
+            "type": "number",
+            "title": {
+              "en": "Charge Reference (W)"
+            },
+            "min": 0,
+            "max": 15000,
+            "placeholder": {
+              "en": "Empty = keep current"
+            }
+          },
+          {
+            "name": "soc_lower",
+            "type": "number",
+            "title": {
+              "en": "Min Battery SOC (%)"
+            },
+            "min": 0,
+            "max": 100,
+            "placeholder": {
+              "en": "Empty = keep current"
+            }
+          },
+          {
+            "name": "soc_upper",
+            "type": "number",
+            "title": {
+              "en": "Max Battery SOC (%)"
+            },
+            "min": 0,
+            "max": 100,
+            "placeholder": {
+              "en": "Empty = keep current"
+            }
+          }
+        ],
+        "titleFormatted": {
+          "en": "Set Self-Consumption: discharge [[discharge_reference]] W, charge [[charge_reference]] W, SOC [[soc_lower]]-[[soc_upper]] %"
+        }
+      },
+      {
+        "id": "set_peak_shaving",
+        "title": {
+          "en": "Set Peak Shaving mode"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=energyhub"
+          },
+          {
+            "name": "import_threshold",
+            "type": "number",
+            "title": {
+              "en": "Import Threshold (W)"
+            },
+            "min": -100000,
+            "max": 100000,
+            "placeholder": {
+              "en": "Empty = keep current"
+            }
+          },
+          {
+            "name": "export_threshold",
+            "type": "number",
+            "title": {
+              "en": "Export Threshold (W)"
+            },
+            "min": -100000,
+            "max": 100000,
+            "placeholder": {
+              "en": "Empty = keep current"
+            }
+          },
+          {
+            "name": "discharge_reference",
+            "type": "number",
+            "title": {
+              "en": "Discharge Reference (W)"
+            },
+            "min": 0,
+            "max": 15000,
+            "placeholder": {
+              "en": "Empty = keep current"
+            }
+          },
+          {
+            "name": "charge_reference",
+            "type": "number",
+            "title": {
+              "en": "Charge Reference (W)"
+            },
+            "min": 0,
+            "max": 15000,
+            "placeholder": {
+              "en": "Empty = keep current"
+            }
+          },
+          {
+            "name": "soc_lower",
+            "type": "number",
+            "title": {
+              "en": "Min Battery SOC (%)"
+            },
+            "min": 0,
+            "max": 100,
+            "placeholder": {
+              "en": "Empty = keep current"
+            }
+          },
+          {
+            "name": "soc_upper",
+            "type": "number",
+            "title": {
+              "en": "Max Battery SOC (%)"
+            },
+            "min": 0,
+            "max": 100,
+            "placeholder": {
+              "en": "Empty = keep current"
+            }
+          }
+        ],
+        "titleFormatted": {
+          "en": "Set Peak Shaving: import [[import_threshold]] W, export [[export_threshold]] W, discharge [[discharge_reference]] W, charge [[charge_reference]] W, SOC [[soc_lower]]-[[soc_upper]] %"
+        }
+      },
+      {
+        "id": "set_limit_export",
+        "title": {
+          "en": "Limit Export of Solar Production"
+        },
+        "titleFormatted": {
+          "en": "Limit Export of Solar Production: [[enabled]]"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=energyhub"
+          },
+          {
+            "name": "enabled",
+            "type": "dropdown",
+            "title": {
+              "en": "Limit Export"
+            },
+            "values": [
+              {
+                "id": "true",
+                "label": {
+                  "en": "On"
+                }
+              },
+              {
+                "id": "false",
+                "label": {
+                  "en": "Off"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "set_limit_import",
+        "title": {
+          "en": "Limit Import for EV Charging and PowerShare"
+        },
+        "titleFormatted": {
+          "en": "Use only Solar for EV charging: [[enabled]]"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=energyhub"
+          },
+          {
+            "name": "enabled",
+            "type": "dropdown",
+            "title": {
+              "en": "Limit Import"
+            },
+            "values": [
+              {
+                "id": "true",
+                "label": {
+                  "en": "On"
+                }
+              },
+              {
+                "id": "false",
+                "label": {
+                  "en": "Off"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "set_solar_production",
+        "title": {
+          "en": "Set Solar Production (PV)"
+        },
+        "titleFormatted": {
+          "en": "Set Solar Production (PV): [[enabled]]"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=energyhub"
+          },
+          {
+            "name": "enabled",
+            "type": "dropdown",
+            "title": {
+              "en": "Solar Production (PV)"
+            },
+            "values": [
+              {
+                "id": "true",
+                "label": {
+                  "en": "On"
+                }
+              },
+              {
+                "id": "false",
+                "label": {
+                  "en": "Off"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "hems_mode",
+        "title": {
+          "en": "Set HEMS mode"
+        },
+        "titleFormatted": {
+          "en": "Set HEMS mode: [[command]] at [[power]] W"
+        },
+        "hint": {
+          "en": "Accepts commands from a HEMS controller. Command: charge, discharge, self_consumption, peak_shaving, wait/pause. Power in watts."
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=energyhub"
+          },
+          {
+            "name": "command",
+            "type": "text",
+            "title": {
+              "en": "Command (from HEMS)"
+            }
+          },
+          {
+            "name": "power",
+            "type": "number",
+            "title": {
+              "en": "Power (W)"
+            },
+            "min": 0,
+            "max": 15000,
+            "step": 100,
+            "placeholder": {
+              "en": "0"
+            }
+          }
+        ]
+      },
+      {
+        "id": "configure_ferroamp",
+        "title": {
+          "en": "Configure Ferroamp System"
+        },
+        "hint": {
+          "en": "Configure all Ferroamp settings. Select 'Keep current' to leave unchanged."
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=energyhub"
+          },
+          {
+            "name": "operation_mode",
+            "type": "dropdown",
+            "title": {
+              "en": "1️⃣ Operation Mode"
+            },
+            "values": [
+              {
+                "id": "keep",
+                "label": {
+                  "en": "→ Keep current"
+                }
+              },
+              {
+                "id": "default",
+                "label": {
+                  "en": "Default (Manual)"
+                }
+              },
+              {
+                "id": "peak_shaving",
+                "label": {
+                  "en": "Peak Shaving"
+                }
+              },
+              {
+                "id": "self_consumption",
+                "label": {
+                  "en": "Self Consumption"
+                }
+              }
+            ]
+          },
+          {
+            "name": "battery_mode",
+            "type": "dropdown",
+            "title": {
+              "en": "2️⃣ Battery Mode (Default only)"
+            },
+            "values": [
+              {
+                "id": "keep",
+                "label": {
+                  "en": "→ Keep current"
+                }
+              },
+              {
+                "id": "off",
+                "label": {
+                  "en": "Off (Automatic)"
+                }
+              },
+              {
+                "id": "charge",
+                "label": {
+                  "en": "⚡ Charge"
+                }
+              },
+              {
+                "id": "discharge",
+                "label": {
+                  "en": "🔋 Discharge"
+                }
+              }
+            ]
+          },
+          {
+            "name": "charge_reference",
+            "type": "number",
+            "title": {
+              "en": "3️⃣ Charge Power (W)"
+            },
+            "min": 0,
+            "max": 15000,
+            "placeholder": {
+              "en": "Empty = keep current"
+            }
+          },
+          {
+            "name": "discharge_reference",
+            "type": "number",
+            "title": {
+              "en": "4️⃣ Discharge Power (W)"
+            },
+            "min": 0,
+            "max": 15000,
+            "placeholder": {
+              "en": "Empty = keep current"
+            }
+          },
+          {
+            "name": "soc_lower",
+            "type": "number",
+            "title": {
+              "en": "5️⃣ Min Battery SOC (%)"
+            },
+            "min": 0,
+            "max": 100,
+            "placeholder": {
+              "en": "Empty = keep current"
+            }
+          },
+          {
+            "name": "soc_upper",
+            "type": "number",
+            "title": {
+              "en": "6️⃣ Max Battery SOC (%)"
+            },
+            "min": 0,
+            "max": 100,
+            "placeholder": {
+              "en": "Empty = keep current"
+            }
+          },
+          {
+            "name": "pv_enabled",
+            "type": "dropdown",
+            "title": {
+              "en": "7️⃣ Solar (PV)"
+            },
+            "values": [
+              {
+                "id": "keep",
+                "label": {
+                  "en": "→ Keep current"
+                }
+              },
+              {
+                "id": "true",
+                "label": {
+                  "en": "☀️ On"
+                }
+              },
+              {
+                "id": "false",
+                "label": {
+                  "en": "Off"
+                }
+              }
+            ]
+          },
+          {
+            "name": "ace_enabled",
+            "type": "dropdown",
+            "title": {
+              "en": "8️⃣ Phase Balancing (ACE)"
+            },
+            "values": [
+              {
+                "id": "keep",
+                "label": {
+                  "en": "→ Keep current"
+                }
+              },
+              {
+                "id": "true",
+                "label": {
+                  "en": "⚖️ On"
+                }
+              },
+              {
+                "id": "false",
+                "label": {
+                  "en": "Off"
+                }
+              }
+            ]
+          },
+          {
+            "name": "ace_threshold",
+            "type": "number",
+            "title": {
+              "en": "9️⃣ ACE Threshold (A)"
+            },
+            "min": 0,
+            "max": 100,
+            "placeholder": {
+              "en": "Empty = keep current"
+            }
+          },
+          {
+            "name": "limit_import",
+            "type": "dropdown",
+            "title": {
+              "en": "🔟 Limit Grid Import"
+            },
+            "values": [
+              {
+                "id": "keep",
+                "label": {
+                  "en": "→ Keep current"
+                }
+              },
+              {
+                "id": "true",
+                "label": {
+                  "en": "📥 On"
+                }
+              },
+              {
+                "id": "false",
+                "label": {
+                  "en": "Off"
+                }
+              }
+            ]
+          },
+          {
+            "name": "import_threshold",
+            "type": "number",
+            "title": {
+              "en": "1️⃣1️⃣ Import Threshold (W)"
+            },
+            "min": 0,
+            "max": 25000,
+            "placeholder": {
+              "en": "Default/Self Consumption"
+            }
+          },
+          {
+            "name": "limit_export",
+            "type": "dropdown",
+            "title": {
+              "en": "1️⃣2️⃣ Limit Grid Export"
+            },
+            "values": [
+              {
+                "id": "keep",
+                "label": {
+                  "en": "→ Keep current"
+                }
+              },
+              {
+                "id": "true",
+                "label": {
+                  "en": "📤 On"
+                }
+              },
+              {
+                "id": "false",
+                "label": {
+                  "en": "Off"
+                }
+              }
+            ]
+          },
+          {
+            "name": "export_threshold",
+            "type": "number",
+            "title": {
+              "en": "1️⃣3️⃣ Export Threshold (W)"
+            },
+            "min": 0,
+            "max": 25000,
+            "placeholder": {
+              "en": "Default/Self Consumption"
+            }
+          },
+          {
+            "name": "discharge_threshold",
+            "type": "number",
+            "title": {
+              "en": "1️⃣4️⃣ Discharge Threshold (W)"
+            },
+            "min": 0,
+            "max": 25000,
+            "placeholder": {
+              "en": "Peak Shaving only"
+            }
+          },
+          {
+            "name": "charge_threshold",
+            "type": "number",
+            "title": {
+              "en": "1️⃣5️⃣ Charge Threshold (W)"
+            },
+            "min": 0,
+            "max": 25000,
+            "placeholder": {
+              "en": "Peak Shaving only"
+            }
+          }
+        ],
+        "titleFormatted": {
+          "en": "Configure Ferroamp: mode [[operation_mode]], battery [[battery_mode]], charge [[charge_reference]] W, discharge [[discharge_reference]] W, SOC [[soc_lower]]-[[soc_upper]] %, PV [[pv_enabled]], ACE [[ace_enabled]] at [[ace_threshold]] A, limit import [[limit_import]] at [[import_threshold]] W, limit export [[limit_export]] at [[export_threshold]] W, discharge threshold [[discharge_threshold]] W, charge threshold [[charge_threshold]] W"
+        }
+      }
+    ]
+  },
+  "images": {
+    "small": "/assets/images/small.jpg",
+    "large": "/assets/images/large.jpg",
+    "xlarge": "/assets/images/xlarge.jpg"
+  },
+  "brandColor": "#00B67A"
+}

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .error {
+            color: #f44336;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .hint {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Login to Ferroamp</h2>
+    
+    <form id="loginForm">
+        <div class="form-group">
+            <label for="systemId">System ID</label>
+            <input type="number" id="systemId" placeholder="4551" required>
+            <div class="hint">Your Ferroamp system ID</div>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="your@email.com" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Password" required>
+        </div>
+
+        <button type="submit" id="loginButton">Login</button>
+        <div id="error" class="error"></div>
+    </form>
+
+    <script>
+        const form = document.getElementById('loginForm');
+        const button = document.getElementById('loginButton');
+        const errorDiv = document.getElementById('error');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const systemId = document.getElementById('systemId').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            button.disabled = true;
+            button.textContent = 'Logging in...';
+            errorDiv.textContent = '';
+
+            try {
+                await Homey.emit('login', {
+                    systemId: systemId,
+                    email: email,
+                    password: password
+                });
+                
+                // Success - Homey will show next view
+                await Homey.showView('list_devices');
+                
+            } catch (error) {
+                errorDiv.textContent = error.message || 'Login failed. Please check your credentials.';
+                button.disabled = false;
+                button.textContent = 'Login';
+            }
+        });
+    </script>
+</body>
+</html>
