@@ -219,18 +219,26 @@ class FerroampAPI {
             ? ssoEntries.reduce((sum, s) => sum + (s.last?.p ?? 0), 0)
             : (ui.pvPower?.val ?? 0));
 
-        // Förbrukning
-        const consumption = Math.round(ui.loadPower?.val ?? 0);
+        // Förbrukning: summa av pLoadQ1+Q2+Q3 om last_ui är färsk, annars okänd
+        // pLoadQ = aktiv lasteffekt per fas (Q = quadrature/active i Ferroamps nomenklatur)
+        const consumption = Math.round(
+            (ui.pLoadQ1?.val ?? 0) + (ui.pLoadQ2?.val ?? 0) + (ui.pLoadQ3?.val ?? 0)
+        );
 
-        // Batteri: invPower negativt = laddar ur, positivt = laddar
+        // Batteri: beräknas från ESO-enheternas ström × spänning
+        // Negativt i = laddar batteri (ström flödar in), positivt = laddar ur
         // Vi vänder: positivt = laddar, negativt = laddar ur
-        const invRaw = ui.invPower?.val ?? 0;
-        const battery = Math.round(-invRaw);
+        const batteryRaw = esoEntries.reduce((sum, e) => {
+            const i = e.last?.i ?? 0;
+            const u = e.last?.u ?? 0;
+            return sum + (i * u);
+        }, 0);
+        const battery = Math.round(-batteryRaw);
 
-        // Grid beräknas från energibalansen (finns ej direkt i API):
-        // Solar - Consumption - invPower = export till nät
-        // Vi vänder: negativt = export, positivt = import
-        const grid = Math.round(-(solar - consumption - invRaw));
+        // Grid: energibalans — Solar - Consumption - (-battery) = Grid export
+        // battery är nu positivt vid laddning (tar från solceller)
+        // Grid (negativt = export, positivt = import)
+        const grid = Math.round(consumption + battery - solar);
 
         return { soc, solar, grid, battery, consumption };
     }
