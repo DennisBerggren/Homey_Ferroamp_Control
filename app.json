@@ -1,6 +1,6 @@
 {
   "id": "com.ferroamp.power",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "compatibility": ">=10.0.0",
   "sdk": 3,
   "name": {
@@ -22,6 +22,7 @@
       "name": {
         "en": "Ferroamp EnergyHub"
       },
+      "icon": "/drivers/energyhub/assets/icon.svg",
       "class": "solarpanel",
       "energy": {
         "batteries": [
@@ -764,5 +765,6 @@
     "large": "/assets/images/large.jpg",
     "xlarge": "/assets/images/xlarge.jpg"
   },
-  "brandColor": "#00B67A"
+  "brandColor": "#2D5A27",
+  "icon": "/assets/icon.svg"
 }
