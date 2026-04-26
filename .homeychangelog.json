@@ -16,5 +16,8 @@
   },
   "0.1.7": {
     "en": "Energy flow bug fixed"
+  },
+  "0.1.8": {
+    "en": "Buggfix - changed method for call"
   }
 }
