@@ -1,6 +1,6 @@
 {
   "id": "com.ferroamp.power",
-  "version": "0.1.4",
+  "version": "0.1.7",
   "compatibility": ">=10.0.0",
   "sdk": 3,
   "name": {
@@ -24,7 +24,9 @@
       },
       "class": "solarpanel",
       "energy": {
-        "batteries": ["OTHER"]
+        "batteries": [
+          "OTHER"
+        ]
       },
       "capabilities": [
         "measure_power.grid",
@@ -35,23 +37,38 @@
       ],
       "capabilitiesOptions": {
         "measure_power.solar": {
-          "title": { "en": "Solar Production", "sv": "Solproduktion" },
+          "title": {
+            "en": "Solar Production",
+            "sv": "Solproduktion"
+          },
           "decimals": 0
         },
         "measure_power.grid": {
-          "title": { "en": "Grid (+ import / - export)", "sv": "Nät (+ import / - export)" },
+          "title": {
+            "en": "Grid (+ import / - export)",
+            "sv": "Nät (+ import / - export)"
+          },
           "decimals": 0
         },
         "measure_power.battery": {
-          "title": { "en": "Battery (+ charging / - discharging)", "sv": "Batteri (+ laddar / - laddar ur)" },
+          "title": {
+            "en": "Battery (+ charging / - discharging)",
+            "sv": "Batteri (+ laddar / - laddar ur)"
+          },
           "decimals": 0
         },
         "measure_power.consumption": {
-          "title": { "en": "Home Consumption", "sv": "Förbrukning" },
+          "title": {
+            "en": "Home Consumption",
+            "sv": "Förbrukning"
+          },
           "decimals": 0
         },
         "measure_battery": {
-          "title": { "en": "Battery SOC", "sv": "Batteriladdning" },
+          "title": {
+            "en": "Battery SOC",
+            "sv": "Batteriladdning"
+          },
           "decimals": 0
         }
       },

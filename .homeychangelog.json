@@ -13,5 +13,8 @@
   },
   "0.1.6": {
     "en": "Added device capabilities for Solar, Battery, Grid and Consumption"
+  },
+  "0.1.7": {
+    "en": "Energy flow bug fixed"
   }
 }
