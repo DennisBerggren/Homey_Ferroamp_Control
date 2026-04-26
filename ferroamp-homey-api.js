@@ -194,6 +194,63 @@ class FerroampAPI {
         }
     }
 
+    async startPowerStream(facilityId, onData, onError) {
+        await this.ensureValidToken();
+
+        const body = JSON.stringify({
+            operationName: 'OnPowerData',
+            query: 'subscription OnPowerData($facilityId: FacilityID!) { newPowerData(facilityId: $facilityId) { batteryPower gridPower loadPower pvPower ehubPower timestamp } }',
+            variables: { facilityId: String(facilityId) }
+        });
+
+        const response = await fetch('https://api.eu.prod.ferroamp.com/graphql/stream', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'text/event-stream',
+                'Authorization': `Bearer ${this.accessToken}`
+            },
+            body
+        });
+
+        if (!response.ok) {
+            throw new Error(`SSE stream HTTP ${response.status}`);
+        }
+
+        // node-fetch returnerar en Node.js ReadableStream — lyssna med 'data'-event
+        const stream = response.body;
+        let buffer = '';
+
+        stream.on('data', (chunk) => {
+            buffer += chunk.toString();
+            const lines = buffer.split('\n');
+            buffer = lines.pop(); // spara ofullständig rad
+
+            for (const line of lines) {
+                if (line.startsWith('data:')) {
+                    try {
+                        const json = JSON.parse(line.slice(5).trim());
+                        const d = json?.data?.newPowerData;
+                        if (d) onData(d);
+                    } catch (e) {
+                        // Ignorera parse-fel
+                    }
+                }
+            }
+        });
+
+        stream.on('end', () => {
+            onError && onError(new Error('SSE stream ended'));
+        });
+
+        stream.on('error', (err) => {
+            onError && onError(err);
+        });
+
+        // Returnera en funktion för att stänga strömmen
+        return () => stream.destroy();
+    }
+
     async getStatus() {
         await this.ensureValidToken();
         // Portal dashboard endpoint — returnerar last_ui, esos (SOC), ssos (PV-strängar)

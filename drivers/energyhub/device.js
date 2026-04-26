@@ -21,9 +21,12 @@ class EnergyHubDevice extends Device {
     // Registrera flow card actions
     this.registerFlowCardActions();
 
-    // Starta polling av live-data (direkt + var 60:e sekund)
+    // Starta polling av live-data (SOC + solar var 60:e sekund)
     await this.pollStatus();
     this._pollInterval = this.homey.setInterval(() => this.pollStatus(), 60 * 1000);
+
+    // Starta SSE-ström för realtids grid/consumption/battery
+    await this.startStream();
     
     this.log('Device ready!');
   }
@@ -420,9 +423,41 @@ class EnergyHubDevice extends Device {
       });
   }
 
+  async startStream() {
+    const store = this.getStore();
+    try {
+      this._stopStream = await this.api.startPowerStream(
+        store.systemId,
+        async (d) => {
+          // SSE-data i kW — konvertera till W
+          const grid    = d.gridPower    != null ? Math.round(d.gridPower    * 1000) : null;
+          const consumption = d.loadPower != null ? Math.round(d.loadPower   * 1000) : null;
+          const battery = d.batteryPower != null ? Math.round(-d.batteryPower * 1000) : null;
+          const solar   = d.pvPower      != null ? Math.round(d.pvPower      * 1000) : null;
+
+          if (grid != null)        await this.setCapabilityValue('measure_power.grid', grid).catch(() => {});
+          if (consumption != null) await this.setCapabilityValue('measure_power.consumption', consumption).catch(() => {});
+          if (battery != null)     await this.setCapabilityValue('measure_power.battery', battery).catch(() => {});
+          if (solar != null)       await this.setCapabilityValue('measure_power.solar', solar).catch(() => {});
+        },
+        async (err) => {
+          this.error('⚠️ SSE stream error:', err.message);
+          // Försök reconnecta efter 30 sekunder
+          this.homey.setTimeout(() => this.startStream(), 30 * 1000);
+        }
+      );
+      this.log('📡 SSE stream started');
+    } catch (err) {
+      this.error('⚠️ Could not start SSE stream:', err.message);
+      // Försök igen efter 60 sekunder
+      this.homey.setTimeout(() => this.startStream(), 60 * 1000);
+    }
+  }
+
   async onDeleted() {
     this.log('Device has been deleted');
     if (this._pollInterval) this.homey.clearInterval(this._pollInterval);
+    if (this._stopStream) this._stopStream();
   }
 }
 
