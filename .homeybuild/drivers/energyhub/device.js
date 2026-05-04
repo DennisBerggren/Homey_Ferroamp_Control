@@ -275,14 +275,14 @@ class EnergyHubDevice extends Device {
             this.log(`🔋 HEMS: Export/Discharge ${power}W`);
 
           } else if (cmd === 'selfconsumption' || cmd === 'chargesolar') {
-            // Self-Consumption, max charge and discharge
-            payload.mode = 3;
+            // Peak Shaving med import/export threshold 0, max charge/discharge
+            payload.mode = 2;
             payload.grid.thresholds.high = 0;
             payload.grid.thresholds.low = 0;
-            payload.battery.powerRef.charge = 12000;
-            payload.battery.powerRef.discharge = 12000;
+            payload.battery.powerRef.charge = 15000;
+            payload.battery.powerRef.discharge = 15000;
             payload.grid.limitExport = false;
-            this.log(`☀️ HEMS: Self-Consumption (${cmd})`);
+            this.log(`☀️ HEMS: Peak Shaving 0/0 15000/15000 (${cmd})`);
 
           } else if (cmd === 'sellsolar') {
             // Self-Consumption, discharge only (no charging into battery)
@@ -334,6 +334,29 @@ class EnergyHubDevice extends Device {
         } catch (error) {
           this.error('❌ HEMS mode failed:', error.message);
           throw new Error(`HEMS mode failed: ${error.message}`);
+        }
+      });
+
+    // SET ACE
+    this.homey.flow.getActionCard('set_ace')
+      .registerRunListener(async (args) => {
+        if (args.device.getData().id !== this.getData().id) return;
+        try {
+          this.log(`⚖️ Setting ACE: enabled=${args.ace_enabled} threshold=${args.ace_threshold}A`);
+          const config = await this.api.getConfig();
+          const payload = config.emsConfig.data;
+          if (args.ace_enabled && args.ace_enabled !== 'keep') {
+            payload.grid.ace.mode = args.ace_enabled === 'true' ? 1 : 0;
+          }
+          if (args.ace_threshold != null) {
+            payload.grid.ace.threshold = args.ace_threshold;
+          }
+          await this.api.setConfig(payload);
+          this.log(`✅ ACE updated`);
+          return true;
+        } catch (error) {
+          this.error('❌ Failed to set ACE:', error.message);
+          throw new Error(`Failed to set ACE: ${error.message}`);
         }
       });
 

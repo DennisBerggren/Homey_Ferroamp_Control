@@ -1,6 +1,6 @@
 {
   "id": "com.ferroamp.power",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "compatibility": ">=10.0.0",
   "sdk": 3,
   "name": {
@@ -453,6 +453,61 @@
             "step": 100,
             "placeholder": {
               "en": "0"
+            }
+          }
+        ]
+      },
+      {
+        "id": "set_ace",
+        "title": {
+          "en": "Set Phase Balancing (ACE)"
+        },
+        "titleFormatted": {
+          "en": "Set Phase Balancing (ACE) [[ace_enabled]] at [[ace_threshold]] A"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=energyhub"
+          },
+          {
+            "name": "ace_enabled",
+            "type": "dropdown",
+            "title": {
+              "en": "Phase Balancing (ACE)"
+            },
+            "values": [
+              {
+                "id": "keep",
+                "label": {
+                  "en": "→ Keep current"
+                }
+              },
+              {
+                "id": "true",
+                "label": {
+                  "en": "⚖️ On"
+                }
+              },
+              {
+                "id": "false",
+                "label": {
+                  "en": "Off"
+                }
+              }
+            ]
+          },
+          {
+            "name": "ace_threshold",
+            "type": "number",
+            "title": {
+              "en": "ACE Threshold (A)"
+            },
+            "min": 0,
+            "max": 100,
+            "placeholder": {
+              "en": "Empty = keep current"
             }
           }
         ]
