@@ -1,4 +1,36 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 260">
-  <path fill="#2D5A27" d="M85,143 L85,186 Q85,189 88,189 L114,189 L114,165 Q114,162 117,162 L143,162 Q146,162 146,165 L146,189 L172,189 Q175,189 175,186 L175,143 L130,101 Z"/>
-  <polygon fill="#2D5A27" points="130,82 69,146 75,152 130,94 185,152 191,146"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="frameGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="70%" stop-color="#1E2226" />
+      <stop offset="88%" stop-color="#2D3238" />
+      <stop offset="95%" stop-color="#15181B" />
+      <stop offset="100%" stop-color="#0B0C0E" />
+    </radialGradient>
+    <radialGradient id="screenGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0A0E12" />
+      <stop offset="100%" stop-color="#020304" />
+    </radialGradient>
+  </defs>
+
+  <rect width="512" height="512" rx="120" fill="#1A1C1E"/>
+  <circle cx="256" cy="256" r="220" fill="url(#frameGrad)" />
+  <circle cx="256" cy="256" r="165" fill="#0B0C0E" />
+  <circle cx="256" cy="256" r="160" fill="url(#screenGrad)" />
+
+  <!-- Grön gauge-båge -->
+  <path d="M 106 244 A 150 150 0 0 1 406 244 Z" fill="#24C122" />
+
+  <!-- Vit konturlinje -->
+  <path d="M 104 244 A 152 152 0 0 1 408 244" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-opacity="0.6" />
+
+  <!-- Mittcirkel -->
+  <circle cx="256" cy="256" r="72" fill="#0A0E12" />
+  <circle cx="256" cy="256" r="66" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-opacity="0.8" />
+
+  <!-- Pil/indikator -->
+  <polygon points="310,148 322,132 328,146" fill="#A4E3A3" stroke="#1B631A" stroke-width="1" />
+
+  <!-- Horisontella streck (ersätter MIN/MAX-text) -->
+  <line x1="106" y1="254" x2="165" y2="254" stroke="#FFFFFF" stroke-width="2" opacity="0.8" />
+  <line x1="347" y1="254" x2="406" y2="254" stroke="#FFFFFF" stroke-width="2" opacity="0.8" />
 </svg>
