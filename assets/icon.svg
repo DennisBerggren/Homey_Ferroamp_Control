@@ -11,26 +11,19 @@
       <stop offset="100%" stop-color="#020304" />
     </radialGradient>
   </defs>
-
   <rect width="512" height="512" rx="120" fill="#1A1C1E"/>
   <circle cx="256" cy="256" r="220" fill="url(#frameGrad)" />
   <circle cx="256" cy="256" r="165" fill="#0B0C0E" />
   <circle cx="256" cy="256" r="160" fill="url(#screenGrad)" />
-
-  <!-- Grön gauge-båge -->
   <path d="M 106 244 A 150 150 0 0 1 406 244 Z" fill="#24C122" />
-
-  <!-- Vit konturlinje -->
   <path d="M 104 244 A 152 152 0 0 1 408 244" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-opacity="0.6" />
-
-  <!-- Mittcirkel -->
   <circle cx="256" cy="256" r="72" fill="#0A0E12" />
   <circle cx="256" cy="256" r="66" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-opacity="0.8" />
-
-  <!-- Pil/indikator -->
-  <polygon points="310,148 322,132 328,146" fill="#A4E3A3" stroke="#1B631A" stroke-width="1" />
-
-  <!-- Horisontella streck (ersätter MIN/MAX-text) -->
   <line x1="106" y1="254" x2="165" y2="254" stroke="#FFFFFF" stroke-width="2" opacity="0.8" />
   <line x1="347" y1="254" x2="406" y2="254" stroke="#FFFFFF" stroke-width="2" opacity="0.8" />
+  <line x1="298" y1="205" x2="359" y2="134" stroke="white" stroke-width="10" stroke-linecap="round"/>
+  <rect x="216" y="238" width="68" height="36" rx="6" fill="none" stroke="#24C122" stroke-width="3"/>
+  <rect x="284" y="249" width="8" height="14" rx="3" fill="#24C122"/>
+  <rect x="220" y="242" width="48" height="28" rx="4" fill="#24C122"/>
+  <polygon points="253,246 245,257 251,257 247,270 261,256 255,256" fill="#0A0E12"/>
 </svg>
