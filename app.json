@@ -1,6 +1,6 @@
 {
   "id": "com.ferroamp.power",
-  "version": "0.1.18",
+  "version": "0.1.19",
   "compatibility": ">=10.0.0",
   "sdk": 3,
   "name": {
