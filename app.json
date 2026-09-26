@@ -1,6 +1,6 @@
 {
   "id": "com.ferroamp.power",
-  "version": "0.1.23",
+  "version": "0.2.0",
   "compatibility": ">=10.0.0",
   "sdk": 3,
   "name": {
@@ -876,6 +876,6 @@
     "large": "/assets/images/large.jpg",
     "xlarge": "/assets/images/xlarge.jpg"
   },
-  "brandColor": "#2D5A27",
+  "brandColor": "#1A1A1A",
   "icon": "/assets/icon.svg"
 }

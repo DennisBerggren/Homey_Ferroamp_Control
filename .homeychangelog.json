@@ -64,5 +64,8 @@
   },
   "0.1.23": {
     "en": "Updated logo and Then card"
+  },
+  "0.2.0": {
+    "en": "Updated logo, ability to use minus values and new Then card"
   }
 }
