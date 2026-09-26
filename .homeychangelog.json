@@ -55,5 +55,11 @@
   },
   "0.1.20": {
     "en": "Bugfix"
+  },
+  "0.1.21": {
+    "en": "Changed max value to 100000. Cleaned up the read me file"
+  },
+  "0.1.22": {
+    "en": "New Then card for getting Operational Status"
   }
 }

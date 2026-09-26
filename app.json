@@ -1,6 +1,6 @@
 {
   "id": "com.ferroamp.power",
-  "version": "0.1.20",
+  "version": "0.1.22",
   "compatibility": ">=10.0.0",
   "sdk": 3,
   "name": {
@@ -15,6 +15,14 @@
   "author": {
     "name": "Dennis Berggren",
     "email": "dennisberggren@me.com"
+  },
+  "source": "https://github.com/DennisBerggren/Homey_Ferroamp_Control",
+  "contributors": {
+    "developers": [
+      {
+        "name": "Jonas B Karlsson"
+      }
+    ]
   },
   "drivers": [
     {
@@ -118,7 +126,7 @@
               "en": "Power (W)"
             },
             "min": 0,
-            "max": 15000,
+            "max": 100000,
             "step": 100,
             "placeholder": {
               "en": "3000"
@@ -147,7 +155,7 @@
               "en": "Power (W)"
             },
             "min": 0,
-            "max": 15000,
+            "max": 100000,
             "step": 100,
             "placeholder": {
               "en": "3000"
@@ -173,7 +181,7 @@
               "en": "Discharge Reference (W)"
             },
             "min": 0,
-            "max": 15000,
+            "max": 100000,
             "placeholder": {
               "en": "Empty = keep current"
             }
@@ -185,7 +193,7 @@
               "en": "Charge Reference (W)"
             },
             "min": 0,
-            "max": 15000,
+            "max": 100000,
             "placeholder": {
               "en": "Empty = keep current"
             }
@@ -261,7 +269,7 @@
               "en": "Discharge Reference (W)"
             },
             "min": 0,
-            "max": 15000,
+            "max": 100000,
             "placeholder": {
               "en": "Empty = keep current"
             }
@@ -273,7 +281,7 @@
               "en": "Charge Reference (W)"
             },
             "min": 0,
-            "max": 15000,
+            "max": 100000,
             "placeholder": {
               "en": "Empty = keep current"
             }
@@ -449,7 +457,7 @@
               "en": "Power (W)"
             },
             "min": 0,
-            "max": 15000,
+            "max": 100000,
             "step": 100,
             "placeholder": {
               "en": "0"
@@ -530,7 +538,7 @@
             "name": "operation_mode",
             "type": "dropdown",
             "title": {
-              "en": "1️⃣ Operation Mode"
+              "en": "Operation Mode"
             },
             "values": [
               {
@@ -563,7 +571,7 @@
             "name": "battery_mode",
             "type": "dropdown",
             "title": {
-              "en": "2️⃣ Battery Mode (Default only)"
+              "en": "Battery Mode (Default only)"
             },
             "values": [
               {
@@ -596,10 +604,10 @@
             "name": "charge_reference",
             "type": "number",
             "title": {
-              "en": "3️⃣ Charge Power (W)"
+              "en": "Charge Power (W)"
             },
             "min": 0,
-            "max": 15000,
+            "max": 100000,
             "placeholder": {
               "en": "Empty = keep current"
             }
@@ -608,10 +616,10 @@
             "name": "discharge_reference",
             "type": "number",
             "title": {
-              "en": "4️⃣ Discharge Power (W)"
+              "en": "Discharge Power (W)"
             },
             "min": 0,
-            "max": 15000,
+            "max": 100000,
             "placeholder": {
               "en": "Empty = keep current"
             }
@@ -620,7 +628,7 @@
             "name": "soc_lower",
             "type": "number",
             "title": {
-              "en": "5️⃣ Min Battery SOC (%)"
+              "en": "Min Battery SOC (%)"
             },
             "min": 0,
             "max": 100,
@@ -632,7 +640,7 @@
             "name": "soc_upper",
             "type": "number",
             "title": {
-              "en": "6️⃣ Max Battery SOC (%)"
+              "en": "Max Battery SOC (%)"
             },
             "min": 0,
             "max": 100,
@@ -644,7 +652,7 @@
             "name": "pv_enabled",
             "type": "dropdown",
             "title": {
-              "en": "7️⃣ Solar (PV)"
+              "en": "Solar (PV)"
             },
             "values": [
               {
@@ -671,7 +679,7 @@
             "name": "ace_enabled",
             "type": "dropdown",
             "title": {
-              "en": "8️⃣ Phase Balancing (ACE)"
+              "en": "Phase Balancing (ACE)"
             },
             "values": [
               {
@@ -698,7 +706,7 @@
             "name": "ace_threshold",
             "type": "number",
             "title": {
-              "en": "9️⃣ ACE Threshold (A)"
+              "en": "ACE Threshold (A)"
             },
             "min": 0,
             "max": 100,
@@ -710,7 +718,7 @@
             "name": "limit_import",
             "type": "dropdown",
             "title": {
-              "en": "🔟 Limit Grid Import"
+              "en": "Limit Grid Import"
             },
             "values": [
               {
@@ -737,7 +745,7 @@
             "name": "import_threshold",
             "type": "number",
             "title": {
-              "en": "1️⃣1️⃣ Import Threshold (W)"
+              "en": "Import Threshold (W)"
             },
             "min": 0,
             "max": 25000,
@@ -749,7 +757,7 @@
             "name": "limit_export",
             "type": "dropdown",
             "title": {
-              "en": "1️⃣2️⃣ Limit Grid Export"
+              "en": "Limit Grid Export"
             },
             "values": [
               {
@@ -776,7 +784,7 @@
             "name": "export_threshold",
             "type": "number",
             "title": {
-              "en": "1️⃣3️⃣ Export Threshold (W)"
+              "en": "Export Threshold (W)"
             },
             "min": 0,
             "max": 25000,
@@ -788,7 +796,7 @@
             "name": "discharge_threshold",
             "type": "number",
             "title": {
-              "en": "1️⃣4️⃣ Discharge Threshold (W)"
+              "en": "Discharge Threshold (W)"
             },
             "min": 0,
             "max": 25000,
@@ -800,7 +808,7 @@
             "name": "charge_threshold",
             "type": "number",
             "title": {
-              "en": "1️⃣5️⃣ Charge Threshold (W)"
+              "en": "Charge Threshold (W)"
             },
             "min": 0,
             "max": 25000,
