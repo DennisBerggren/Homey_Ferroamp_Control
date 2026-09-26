@@ -83,7 +83,8 @@
       },
       "images": {
         "small": "/drivers/energyhub/assets/images/small.png",
-        "large": "/drivers/energyhub/assets/images/large.png"
+        "large": "/drivers/energyhub/assets/images/large.png",
+        "xlarge": "/drivers/energyhub/assets/images/xlarge.png"
       },
       "pair": [
         {
@@ -521,6 +522,53 @@
         ]
       },
       {
+        "id": "get_ferroamp_mode",
+        "title": {
+          "en": "Get Ferroamp mode"
+        },
+        "titleFormatted": {
+          "en": "Get Ferroamp mode"
+        },
+        "hint": {
+          "en": "Fetches the current operation mode and battery charge/discharge reference from the Ferroamp Portal. The values are available as tokens for the following cards."
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=energyhub"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "operation_mode",
+            "type": "string",
+            "title": {
+              "en": "Operation Mode"
+            },
+            "example": {
+              "en": "Self-Consumption"
+            }
+          },
+          {
+            "name": "charge_reference",
+            "type": "number",
+            "title": {
+              "en": "Charge Reference (W)"
+            },
+            "example": 5000
+          },
+          {
+            "name": "discharge_reference",
+            "type": "number",
+            "title": {
+              "en": "Discharge Reference (W)"
+            },
+            "example": 5000
+          }
+        ]
+      },
+      {
         "id": "configure_ferroamp",
         "title": {
           "en": "Configure Ferroamp System"
@@ -747,8 +795,8 @@
             "title": {
               "en": "Import Threshold (W)"
             },
-            "min": 0,
-            "max": 25000,
+            "min": -100000,
+            "max": 100000,
             "placeholder": {
               "en": "Default/Self Consumption"
             }
@@ -786,8 +834,8 @@
             "title": {
               "en": "Export Threshold (W)"
             },
-            "min": 0,
-            "max": 25000,
+            "min": -100000,
+            "max": 100000,
             "placeholder": {
               "en": "Default/Self Consumption"
             }
@@ -798,8 +846,8 @@
             "title": {
               "en": "Discharge Threshold (W)"
             },
-            "min": 0,
-            "max": 25000,
+            "min": -100000,
+            "max": 100000,
             "placeholder": {
               "en": "Peak Shaving only"
             }
@@ -810,8 +858,8 @@
             "title": {
               "en": "Charge Threshold (W)"
             },
-            "min": 0,
-            "max": 25000,
+            "min": -100000,
+            "max": 100000,
             "placeholder": {
               "en": "Peak Shaving only"
             }
